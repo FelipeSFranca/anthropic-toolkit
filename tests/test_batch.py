@@ -80,6 +80,29 @@ class BatchExampleTests(unittest.TestCase):
         self.assertEqual(record["raw_response"], malformed_response)
         self.assertEqual(record["error"]["stop_reason"], "max_tokens")
 
+    def test_canceled_result_does_not_require_error(self):
+        result = SimpleNamespace(type="canceled")
+
+        record = make_result_record("DEMO-3", result)
+
+        self.assertEqual(record, {"issue_key": "DEMO-3", "status": "canceled"})
+
+    def test_expired_result_does_not_require_error(self):
+        result = SimpleNamespace(type="expired")
+
+        record = make_result_record("DEMO-4", result)
+
+        self.assertEqual(record, {"issue_key": "DEMO-4", "status": "expired"})
+
+    def test_errored_result_includes_error_details(self):
+        error = SimpleNamespace(model_dump=lambda: {"type": "api_error"})
+        result = SimpleNamespace(type="errored", error=error)
+
+        record = make_result_record("DEMO-5", result)
+
+        self.assertEqual(record["status"], "errored")
+        self.assertEqual(record["error"], {"type": "api_error"})
+
 
 if __name__ == "__main__":
     unittest.main()

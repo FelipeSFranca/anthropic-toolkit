@@ -115,7 +115,7 @@ def make_result_record(custom_id: str, result: Any) -> dict:
                 "stop_reason": result.message.stop_reason,
             }
             record["raw_response"] = response_text
-    else:
+    elif result.type == "errored":
         record["error"] = result.error.model_dump()
     return record
 

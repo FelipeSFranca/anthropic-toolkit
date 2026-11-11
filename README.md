@@ -57,7 +57,7 @@ If processing has not ended, the command prints the current counts; run it
 again later. Once complete, results are written to
 `ticket_quality_results.jsonl`, with one JSON object per ticket. Each line
 contains the ticket's `issue_key`, result `status`, and either the analysis or
-an error. Both local output files are ignored by Git.
+an error.
 
 You can provide a different CSV, batch ID, or output path:
 
@@ -66,6 +66,33 @@ python examples/batch.py submit path/to/tickets.csv
 python examples/batch.py retrieve --batch-id msgbatch_...
 python examples/batch.py retrieve --output results.jsonl
 ```
+
+### HTML Quality Report
+
+Generate a self-contained HTML report from the batch JSONL results. The script
+validates successful analyses, skips and counts invalid analysis records,
+calculates aggregate metrics, asks Claude for up to three structured insights,
+and saves the report to
+`examples/ticket_quality_report.html`.
+
+```bash
+python examples/report.py
+```
+
+By default, it reads `examples/ticket_quality_results.jsonl`. Choose different
+input, output, or model values with:
+
+```bash
+python examples/report.py --input path/to/results.jsonl --output report.html
+python examples/report.py --model your-model-id
+```
+
+The configured Claude model must support Anthropic structured JSON outputs.
+The HTML layout and inline CSS are in
+`examples/templates/report.html`; charts are rendered locally, with no external
+assets or charting dependencies. Recommendations use aggregate metrics and up
+to six selected ticket examples; Claude does not analyze the full text of every
+ticket in the batch.
 
 ## Tests
 
