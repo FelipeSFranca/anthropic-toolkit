@@ -1,6 +1,6 @@
 # Anthropic API Examples
 
-Examples for testing Claude API capabilities.
+A collection of practical Python examples exploring the Anthropic SDK capabilities.
 
 ## Setup
 
