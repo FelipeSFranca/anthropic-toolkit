@@ -4,4 +4,3 @@ __pycache__/
 venv/
 .env
 examples/.batch_id
-examples/ticket_quality_report.html
