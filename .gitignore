@@ -3,5 +3,4 @@ __pycache__/
 .venv/
 venv/
 .env
-.batch_id
-ticket_quality_results.jsonl
+examples/.batch_id
